@@ -1,31 +1,33 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import MapGL, { Marker } from 'react-map-gl';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { Creators as MapsActions } from '../../store/ducks/maps';
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 class Map extends Component {
-  componentDidMount() {
-    window.addEventListener('resize', this.resize);
-    this.resize();
-  }
+  // componentDidMount() {
+  //   window.addEventListener('resize', this.resize);
+  //   this.resize();
+  // }
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resize);
-  }
+  // componentWillUnmount() {
+  //   window.removeEventListener('resize', this.resize);
+  // }
 
-  resize = () => {
-    this.setState({
-      maps: {
-        viewport: {
-          ...this.props.maps.viewport,
-          width: window.innerWidth,
-          height: window.innerHeight,
-        },
-      },
-    });
-  };
+  // resize = () => {
+  //   this.setState({
+  //     maps: {
+  //       viewport: {
+  //         ...this.props.maps.viewport,
+  //         width: window.innerWidth,
+  //         height: window.innerHeight,
+  //       },
+  //     },
+  //   });
+  // };
 
   handleMapClick(e) {
     const [longitude, latitude] = e.lngLat;
@@ -33,13 +35,14 @@ class Map extends Component {
   }
 
   render() {
+    const { maps, changeViewport } = this.props;
     return (
       <MapGL
-        {...this.props.maps.viewport}
+        {...maps.viewport}
         onClick={this.handleMapClick}
         mapStyle="mapbox://styles/mapbox/basic-v9"
         mapboxApiAccessToken="pk.eyJ1IjoiZGllZ28zZyIsImEiOiJjamh0aHc4em0wZHdvM2tyc3hqbzNvanhrIn0.3HWnXHy_RCi35opzKo8sHQ"
-        onViewportChange={viewport => this.setState({ viewport })}
+        onViewportChange={viewport => changeViewport(viewport)}
       >
         <Marker
           latitude={-23.5439948}
@@ -65,4 +68,9 @@ const mapStateToProps = state => ({
   maps: state.maps,
 });
 
-export default connect(mapStateToProps)(Map);
+const mapDispatchToProps = dispatch => bindActionCreators(MapsActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Map);
