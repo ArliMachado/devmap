@@ -30,8 +30,10 @@ class Map extends Component {
   // };
 
   handleMapClick(e) {
+    console.log(e);
+
     const [longitude, latitude] = e.lngLat;
-    alert(`Latitude: ${latitude} \nLongitude: ${longitude}`);
+    console.log(`Latitude: ${latitude} \nLongitude: ${longitude}`);
   }
 
   render() {
@@ -45,8 +47,8 @@ class Map extends Component {
         onViewportChange={viewport => changeViewport(viewport)}
       >
         <Marker
-          latitude={-23.5439948}
-          longitude={-46.6065452}
+          latitude={-22.902570209580535}
+          longitude={-43.18347356327128}
           onClick={this.handleMapClick}
           captureClick
         >
