@@ -4,46 +4,19 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { Creators as MapsActions } from '../../store/ducks/maps';
+import mapboxConfig from '../../config/mapboxConfig';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 class Map extends Component {
-  // componentDidMount() {
-  //   window.addEventListener('resize', this.resize);
-  //   this.resize();
-  // }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener('resize', this.resize);
-  // }
-
-  // resize = () => {
-  //   this.setState({
-  //     maps: {
-  //       viewport: {
-  //         ...this.props.maps.viewport,
-  //         width: window.innerWidth,
-  //         height: window.innerHeight,
-  //       },
-  //     },
-  //   });
-  // };
-
-  handleMapClick(e) {
-    console.log(e);
-
-    const [longitude, latitude] = e.lngLat;
-    console.log(`Latitude: ${latitude} \nLongitude: ${longitude}`);
-  }
-
   render() {
-    const { maps, changeViewport } = this.props;
+    const { maps, changeViewport, getPosition } = this.props;
     return (
       <MapGL
         {...maps.viewport}
-        onClick={this.handleMapClick}
-        mapStyle="mapbox://styles/mapbox/basic-v9"
-        mapboxApiAccessToken="pk.eyJ1IjoiZGllZ28zZyIsImEiOiJjamh0aHc4em0wZHdvM2tyc3hqbzNvanhrIn0.3HWnXHy_RCi35opzKo8sHQ"
+        onClick={position => getPosition(position.lngLat)}
+        mapStyle={mapboxConfig.mapStyle}
+        mapboxApiAccessToken={mapboxConfig.token}
         onViewportChange={viewport => changeViewport(viewport)}
       >
         <Marker

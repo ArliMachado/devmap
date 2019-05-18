@@ -4,6 +4,7 @@
 
 export const Types = {
   CHANGE_VIEWPORT: 'maps/CHANGE_VIEWPORT',
+  GET_POSITION: 'maps/GET_POSITION',
 };
 
 const INITIAL_STATE = {
@@ -38,5 +39,9 @@ export const Creators = {
   changeViewport: viewport => ({
     type: Types.CHANGE_VIEWPORT,
     payload: { viewport },
+  }),
+  getPosition: position => ({
+    type: Types.GET_POSITION,
+    payload: { position },
   }),
 };
